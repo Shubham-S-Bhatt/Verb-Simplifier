@@ -7,9 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             embeddings = data;
-            trainModel().then(() => {
-                console.log('Model is ready!');
-            });
         })
         .catch(error => console.error('Error loading embeddings:', error));
 
@@ -200,6 +197,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const simplifiedSentence = simplifySentence(sentence);
         document.getElementById('simplified-sentence').innerText = simplifiedSentence;
     }
+
+
+
+    // Train the model when the page loads
+    trainModel().then(() => {
+        console.log('Model is ready!');
+    });
 
     // Expose the function to the global scope so it can be called by the button
     window.simplifyInputSentence = simplifyInputSentence;
