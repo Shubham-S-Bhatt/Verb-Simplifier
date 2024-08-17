@@ -3,7 +3,7 @@ from gensim.models import Word2Vec
 import json
 import numpy as np
 
-# Sample corpus (you should replace this with your actual text data)
+# Sample corpus
 corpus = [
     "When the fox touches a rabbit, it obliterates the rabbit.",
     "When the fox touches a rabbit, it destroys the rabbit.",

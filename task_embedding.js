@@ -7,7 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const trainingData = [
         { input: "obliterates", output: "destroys" },
         { input: "annihilates", output: "destroys" },
-        // ... more training data
+        { input: "promulgates", output: "issues" },
+        { input: "delineates", output: "describes" },
+        { input: "mitigates", output: "reduces" },
+        { input: "revolutionizes", output: "changes" },
+        { input: "adjudicates", output: "judges" },
+        { input: "calibrates", output: "adjusts" },
+        { input: "orchestrates", output: "organizes" },
+        { input: "elucidates", output: "explains" },
+        { input: "endeavors", output: "tries" },
     ];
 
     async function loadEmbeddings() {
