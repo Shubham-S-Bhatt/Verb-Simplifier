@@ -107,10 +107,13 @@ document.addEventListener('DOMContentLoaded', () => {
         metrics: ['accuracy']
     });
 
-    const xs = tf.tensor2d(encodedData.map(({ input }) => input));
-    const ys = tf.tensor2d(encodedData.map(({ output }) => output));
+
 
     async function trainModel() {
+
+        const xs = tf.tensor2d(encodedData.map(({ input }) => input));
+        const ys = tf.tensor2d(encodedData.map(({ output }) => output));
+        
         const trainingMessage = document.getElementById('training-message');
         const sentenceInput = document.getElementById('sentence-input');
         const simplifyButton = document.getElementById('simplify-button');
