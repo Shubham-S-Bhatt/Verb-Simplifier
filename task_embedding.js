@@ -7,7 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             embeddings = data;
-            trainModel();
+            trainModel().then(() => {
+                console.log('Model is ready!');
+            });
         })
         .catch(error => console.error('Error loading embeddings:', error));
 
@@ -99,9 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Define the model
     const model = tf.sequential();
-    model.add(tf.layers.dense({ units: 128, inputShape: [embeddingSize], activation: 'relu' }));
-    model.add(tf.layers.dense({ units: 64, activation: 'relu' }));
-    model.add(tf.layers.dense({ units: embeddingSize, activation: 'softmax' }));
+    model.add(tf.layers.dense({ units: 64, inputShape: [vocab.length], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 128, inputShape: [vocab.length], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 128, inputShape: [vocab.length], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 128, inputShape: [vocab.length], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 64, inputShape: [vocab.length], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: vocab.length, activation: 'softmax' }));
 
     model.compile({
         optimizer: tf.train.adam(),
@@ -113,15 +118,33 @@ document.addEventListener('DOMContentLoaded', () => {
         const xs = tf.tensor2d(encodedData.map(({ input }) => input));
         const ys = tf.tensor2d(encodedData.map(({ output }) => output));
 
-        document.getElementById('training-message').style.display = 'block'; // Show the training message
-        await model.fit(xs, ys, {
-            epochs: 100,
-            callbacks: tf.callbacks.earlyStopping({ monitor: 'loss' })
-        });
-        document.getElementById('training-message').style.display = 'none'; // Hide the training message
-        document.getElementById('sentence-input').disabled = false; // Enable input
-        document.getElementById('simplify-button').disabled = false; // Enable button
-    }
+
+
+        const trainingMessage = document.getElementById('training-message');
+        const sentenceInput = document.getElementById('sentence-input');
+        const simplifyButton = document.getElementById('simplify-button');
+
+
+
+        
+        if (trainingMessage && sentenceInput && simplifyButton) {
+            trainingMessage.style.display = 'block'; // Show the training message
+            console.log('Starting model training...');
+            await model.fit(xs, ys, {
+                epochs: 1000,
+                callbacks: tf.callbacks.earlyStopping({ monitor: 'loss' })
+            });
+            console.log('Model training complete!');
+            trainingMessage.style.display = 'none'; // Hide the training message
+            sentenceInput.disabled = false; // Enable input
+            simplifyButton.disabled = false; // Enable button
+        } else {
+            console.error('One or more elements were not found on the page.');
+        }
+}
+
+
+
 
     function predictVerb(complexVerb) {
         const inputTensor = tf.tensor2d([getEmbedding(complexVerb)]);
