@@ -27,9 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Loading embeddings...");
         try {
             const response = await fetch('embeddings.json');
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
             embeddings = await response.json();
             console.log("Embeddings loaded successfully", embeddings);
         } catch (error) {
@@ -71,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     callbacks: tf.callbacks.earlyStopping({ monitor: 'loss' })
                 });
 
-                
+
                 console.log('Model training complete!');
                 
                 // Hide the training message and enable input and button
@@ -90,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function encodeWord(word) {
         const embedding = embeddings[word];
         if (!embedding) {
-            console.warn(`Embedding not found for word: ${word}. Returning zero vector.`);
+            console.warn(`Embedding not found for word: ${word}`);
         }
         return embedding || new Array(embeddingSize).fill(0); // Return a zero vector if the word is not found
     }
@@ -134,10 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 simplified = true;
             }
         });
-
-        if (!simplified) {
-            console.warn("No simplification available for some verbs in the sentence.");
-        }
 
         return doc.text();
     }
