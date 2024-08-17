@@ -12,10 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
         { input: "mitigates", output: "reduces" },
         { input: "revolutionizes", output: "changes" },
         { input: "adjudicates", output: "judges" },
-        { input: "calibrates", output: "adjusts" },
-        { input: "orchestrates", output: "organizes" },
         { input: "elucidates", output: "explains" },
         { input: "endeavors", output: "tries" },
+        { input: "organizes", output: "arranges" },
+        { input: "explains", output: "clarifies" },
+        { input: "tries", output: "attempts" }
     ];
 
     async function loadEmbeddings() {
@@ -38,9 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Define the model
             model = tf.sequential();
-            model.add(tf.layers.dense({ units: 64, inputShape: [embeddingSize], activation: 'relu' }));
-            model.add(tf.layers.dense({ units: 128, activation: 'relu' }));
-            model.add(tf.layers.dense({ units: 128, activation: 'relu' }));
+            model.add(tf.layers.dense({ units: 32, inputShape: [embeddingSize], activation: 'relu' }));
+            model.add(tf.layers.dense({ units: 64, activation: 'relu' }));
             model.add(tf.layers.dense({ units: embeddingSize, activation: 'softmax' }));
 
             model.compile({
@@ -55,15 +55,15 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("Input tensors (xs):", xs.shape);
             console.log("Output tensors (ys):", ys.shape);
 
-            const trainingMessage = document.getElementById('training-message');
-            const sentenceInput = document.getElementById('sentence-input');
-            const simplifyButton = document.getElementById('simplify-button');
+            const trainingMessage = document.getElementById('training-message-embedding');
+            const sentenceInput = document.getElementById('sentence-input-embedding');
+            const simplifyButton = document.getElementById('simplify-button-embedding');
 
             if (trainingMessage && sentenceInput && simplifyButton) {
                 trainingMessage.style.display = 'block'; // Show the training message
                 console.log('Model training started...');
                 await model.fit(xs, ys, {
-                    epochs: 1000,
+                    epochs: 2000,
                     callbacks: tf.callbacks.earlyStopping({ monitor: 'loss' })
                 });
 
@@ -137,14 +137,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return doc.text();
     }
 
-    function simplifyInputSentence() {
+    function simplifyInputSentenceEmbedded() {
         console.log("Simplify input sentence function called.");
-        const sentence = document.getElementById('sentence-input').value;
-        document.getElementById('original-sentence').innerText = sentence;
+        const sentence = document.getElementById('sentence-input-embedding').value;
+        document.getElementById('original-sentence-embedding').innerText = sentence;
         console.log("Original sentence:", sentence);
         const simplifiedSentence = simplifySentence(sentence);
         console.log("Simplified sentence:", simplifiedSentence);
-        document.getElementById('simplified-sentence').innerText = simplifiedSentence;
+        document.getElementById('simplified-sentence-embedding').innerText = simplifiedSentence;
     }
 
     async function initialize() {
@@ -160,5 +160,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initialize();
 
-    window.simplifyInputSentence = simplifyInputSentence;
+    window.simplifyInputSentenceEmbedded = simplifyInputSentenceEmbedded;
 });

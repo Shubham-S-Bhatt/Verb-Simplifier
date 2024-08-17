@@ -7,27 +7,74 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="https://unpkg.com/compromise@13.11.3/builds/compromise.min.js"></script>
-    <!-- <script src="task_nlp.js"></script> -->
+    <script src="task_nlp.js"></script>
     <script src="task_embedding.js"></script>
+    <script src="task.js"></script>
+
 </head>
 
 <body>
-    <div class="container">
-        <h1>Verb Simplification</h1>
+    <div class="outerGrid">
+
         
-        <div id="training-message" class="alert">Model is being trained, please wait...</div>
-        
-        <div class="input-group">
-            <label for="sentence-input">Enter a sentence:</label>
-            <input type="text" id="sentence-input" placeholder="Type your sentence here..." disabled>
+        <div class="container">
+            <h1>Verb Simplification using simple mapping</h1>
+            
+            <div id="training-message-simple" class="alert">Model is being trained, please wait...</div>
+            
+            <div class="input-group">
+                <label for="sentence-input-simple">Enter a sentence:</label>
+                <input type="text" id="sentence-input-simple" placeholder="Type your sentence here...">
+            </div>
+            
+            <button id="simplify-button-simple" onclick="simplifySentenceSimple()">Simplify Sentence</button>
+            
+            <div class="output-group">
+                <p><strong>Original Sentence:</strong> <span id="original-sentence-simple"></span></p>
+                <p><strong>Simplified Sentence:</strong> <span id="simplified-sentence-simple"></span></p>
+            </div>
         </div>
-        
-        <button id="simplify-button" onclick="simplifyInputSentence()" disabled>Simplify Sentence</button>
-        
-        <div class="output-group">
-            <p><strong>Original Sentence:</strong> <span id="original-sentence"></span></p>
-            <p><strong>Simplified Sentence:</strong> <span id="simplified-sentence"></span></p>
+
+
+        <div class="container">
+            <h1>Verb Simplification using Onehot Encoding and Neural Network</h1>
+            
+            <div id="training-message" class="alert">Model is being trained, please wait...</div>
+            
+            <div class="input-group">
+                <label for="sentence-input">Enter a sentence:</label>
+                <input type="text" id="sentence-input" placeholder="Type your sentence here..." disabled>
+            </div>
+            
+            <button id="simplify-button" onclick="simplifyInputSentence()" disabled>Simplify Sentence</button>
+            
+            <div class="output-group">
+                <p><strong>Original Sentence:</strong> <span id="original-sentence"></span></p>
+                <p><strong>Simplified Sentence:</strong> <span id="simplified-sentence"></span></p>
+            </div>
         </div>
+
+        <div class="container">
+            <h1>Verb Simplification using Word Embedding</h1>
+            
+            <div id="training-message-embedding" class="alert">Model is being trained, please wait...</div>
+            
+            <div class="input-group">
+                <label for="sentence-input-embedding">Enter a sentence:</label>
+                <input type="text" id="sentence-input-embedding" placeholder="Type your sentence here..." disabled>
+            </div>
+            
+            <button id="simplify-button-embedding" onclick="simplifyInputSentenceEmbedded()" disabled>Simplify Sentence</button>
+            
+            <div class="output-group">
+                <p><strong>Original Sentence:</strong> <span id="original-sentence-embedding"></span></p>
+                <p><strong>Simplified Sentence:</strong> <span id="simplified-sentence-embedding"></span></p>
+            </div>
+        </div>
+
     </div>
+
+
+
 </body>
 </html>

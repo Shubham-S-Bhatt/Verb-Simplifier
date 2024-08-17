@@ -1,76 +1,22 @@
+
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     // Vocabulary and encoding setup
     const trainingData = [
         { input: "obliterates", output: "destroys" },
         { input: "annihilates", output: "destroys" },
-        { input: "eradicates", output: "removes" },
-        { input: "exterminates", output: "kills" },
-        { input: "perplexes", output: "confuses" },
-        { input: "elevates", output: "raises" },
-        { input: "diminishes", output: "reduces" },
-        { input: "devastates", output: "ruins" },
-        { input: "decimates", output: "reduces" },
-        { input: "demolishes", output: "destroys" },
-        { input: "disseminates", output: "spreads" },
-        { input: "facilitates", output: "helps" },
-        { input: "fabricates", output: "makes" },
-        { input: "illuminates", output: "lights" },
-        { input: "incinerates", output: "burns" },
-        { input: "instigates", output: "starts" },
-        { input: "intensifies", output: "increases" },
-        { input: "magnifies", output: "enlarges" },
-        { input: "mitigates", output: "lessens" },
-        { input: "mobilizes", output: "activates" },
-        { input: "obliterates", output: "destroys" },
-        { input: "orchestrates", output: "organizes" },
-        { input: "precipitates", output: "causes" },
-        { input: "relinquishes", output: "gives up" },
-        { input: "repudiates", output: "denies" },
-        { input: "resurrects", output: "revives" },
-        { input: "reiterates", output: "repeats" },
-        { input: "stipulates", output: "specifies" },
-        { input: "synthesizes", output: "combines" },
-        { input: "transforms", output: "changes" },
-        { input: "transmits", output: "sends" },
-        { input: "uproots", output: "removes" },
-        { input: "vacillates", output: "wavers" },
-        { input: "vaporizes", output: "evaporates" },
-        { input: "vindicates", output: "justifies" },
-        { input: "alleviates", output: "reduces" },
-        { input: "articulates", output: "expresses" },
-        { input: "aspires", output: "hopes" },
-        { input: "calibrates", output: "adjusts" },
-        { input: "collaborates", output: "works together" },
-        { input: "contaminates", output: "pollutes" },
+        { input: "promulgates", output: "issues" },
         { input: "delineates", output: "describes" },
-        { input: "depreciates", output: "devalues" },
-        { input: "disintegrates", output: "breaks apart" },
-        { input: "encompasses", output: "includes" },
-        { input: "exaggerates", output: "overstates" },
-        { input: "exonerates", output: "clears" },
-        { input: "extrapolates", output: "estimates" },
-        { input: "fascinates", output: "interests" },
-        { input: "formulates", output: "develops" },
-        { input: "illuminates", output: "lights" },
-        { input: "implicates", output: "involves" },
-        { input: "inaugurates", output: "begins" },
-        { input: "infuriates", output: "angers" },
-        { input: "interrogates", output: "questions" },
-        { input: "legitimizes", output: "justifies" },
-        { input: "manipulates", output: "controls" },
-        { input: "obliterates", output: "destroys" },
-        { input: "originates", output: "begins" },
-        { input: "permeates", output: "spreads through" },
-        { input: "procrastinates", output: "delays" },
-        { input: "propagates", output: "spreads" },
-        { input: "relinquishes", output: "gives up" },
-        { input: "revitalizes", output: "refreshes" },
-        { input: "subjugates", output: "dominates" },
-        { input: "sublimates", output: "transforms" },
-        { input: "submerges", output: "immerses" },
-        { input: "validates", output: "confirms" },
-        { input: "venerates", output: "respects" },
-        { input: "vivifies", output: "enlivens" },
+        { input: "mitigates", output: "reduces" },
+        { input: "revolutionizes", output: "changes" },
+        { input: "adjudicates", output: "judges" },
+        { input: "elucidates", output: "explains" },
+        { input: "endeavors", output: "tries" },
+        { input: "organizes", output: "arranges" },
+        { input: "explains", output: "clarifies" },
+        { input: "tries", output: "attempts" }
     ];
 
     const complexVerbs = trainingData.map(({ input }) => input);
@@ -94,11 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Define the model
     const model = tf.sequential();
-    model.add(tf.layers.dense({ units: 64, inputShape: [vocab.length], activation: 'relu' }));
-    model.add(tf.layers.dense({ units: 128, inputShape: [vocab.length], activation: 'relu' }));
-    model.add(tf.layers.dense({ units: 128, inputShape: [vocab.length], activation: 'relu' }));
-    model.add(tf.layers.dense({ units: 128, inputShape: [vocab.length], activation: 'relu' }));
-    model.add(tf.layers.dense({ units: 64, inputShape: [vocab.length], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 32, inputShape: [vocab.length], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 64, activation: 'relu' }));
     model.add(tf.layers.dense({ units: vocab.length, activation: 'softmax' }));
 
     model.compile({
@@ -113,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const xs = tf.tensor2d(encodedData.map(({ input }) => input));
         const ys = tf.tensor2d(encodedData.map(({ output }) => output));
-        
+
         const trainingMessage = document.getElementById('training-message');
         const sentenceInput = document.getElementById('sentence-input');
         const simplifyButton = document.getElementById('simplify-button');
