@@ -68,22 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { input: "fascinates", output: "interests" },
         { input: "formulates", output: "develops" },
         { input: "implicates", output: "involves" },
-        { input: "inaugurates", output: "begins" },
-        { input: "infuriates", output: "angers" },
-        { input: "interrogates", output: "questions" },
-        { input: "legitimizes", output: "justifies" },
-        { input: "manipulates", output: "controls" },
-        { input: "originates", output: "begins" },
-        { input: "permeates", output: "spreads through" },
-        { input: "procrastinates", output: "delays" },
-        { input: "propagates", output: "spreads" },
-        { input: "revitalizes", output: "refreshes" },
-        { input: "subjugates", output: "dominates" },
-        { input: "sublimates", output: "transforms" },
-        { input: "submerges", output: "immerses" },
-        { input: "validates", output: "confirms" },
-        { input: "venerates", output: "respects" },
-        { input: "vivifies", output: "enlivens" },
+        { input: "inaugurates", output: "begins" }
     ];
 
     function encodeWord(word) {
@@ -97,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     async function trainModel() {
-
         
         // Define the model
         const model = tf.sequential();
