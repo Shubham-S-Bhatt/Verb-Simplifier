@@ -1,8 +1,12 @@
+// #####################################################################################
+// ######################### Using Word Embedding / word2vec ###########################
+// #####################################################################################
+
 document.addEventListener('DOMContentLoaded', () => {
 
     let embeddings = {};
     const embeddingSize = 50; // Assuming each embedding is a 50-dimensional vector
-    let model; // Declare the model variable globally
+    let model;
 
     const trainingData = [
         { input: "obliterates", output: "destroys" },
@@ -60,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const simplifyButton = document.getElementById('simplify-button-embedding');
 
             if (trainingMessage && sentenceInput && simplifyButton) {
-                trainingMessage.style.display = 'block'; // Show the training message
+                trainingMessage.style.display = 'block';
                 console.log('Model training started...');
                 await model.fit(xs, ys, {
                     epochs: 2000,
@@ -69,10 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 
                 console.log('Model training complete!');
-
-                trainingMessage.style.display = 'none'; // Hide the training message
-                sentenceInput.disabled = false; // Enable input
-                simplifyButton.disabled = false; // Enable button
+                
+                // Hide the training message and enable input and button
+                trainingMessage.style.display = 'none'; 
+                sentenceInput.disabled = false; 
+                simplifyButton.disabled = false;
             } else {
                 console.error('One or more elements were not found on the page.');
             }
@@ -160,5 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initialize();
 
+    // Exposing the function to the global scope so it can be called by the button
     window.simplifyInputSentenceEmbedded = simplifyInputSentenceEmbedded;
 });

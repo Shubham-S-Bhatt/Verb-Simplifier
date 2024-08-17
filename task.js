@@ -1,4 +1,8 @@
-// Mapping of complex verbs to simpler verbs
+// #####################################################################################
+// #################################### Simple Mapping #################################
+// #####################################################################################
+
+
 const verbMapping = {
     'obliterates': 'destroys',
     'annihilates': 'destroys',
@@ -18,10 +22,9 @@ const verbMapping = {
 
 
 function simplifySentence(sentence) {
-    // Parse the sentence using compromise
-    let doc = nlp(sentence);
+    let doc = nlp(sentence);     // paring the sentence
 
-    // Replace complex verbs with simpler verbs
+    // replacing complex verbs with simpler ones if available in the mapping
     doc.verbs().forEach(verb => {
         console.log(verb)
         let text = verb.text();
@@ -30,15 +33,8 @@ function simplifySentence(sentence) {
         }
     });
 
-    // Return the simplified sentence
     return doc.text();
 }
-
-
-// Example usage
-let sentence = 'When the fox touches a rabbit, it obliterates the rabbit.';
-let simplifiedSentence = simplifySentence(sentence);
-
 
 
 // Simplify the sentence provided in the input field

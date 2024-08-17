@@ -1,9 +1,9 @@
-
-
-
+// #####################################################################################
+// ############### Using Neural Network and one hot encoding ###########################
+// #####################################################################################
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Vocabulary and encoding setup
+
     const trainingData = [
         { input: "obliterates", output: "destroys" },
         { input: "annihilates", output: "destroys" },
@@ -20,11 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const complexVerbs = trainingData.map(({ input }) => input);
-    console.log('Complex verbs:', complexVerbs);
+    // console.log('Complex verbs:', complexVerbs);
 
     const vocab = [...new Set(trainingData.flatMap(({ input, output }) => [input, output]))];
     const wordIndex = Object.fromEntries(vocab.map((word, index) => [word, index]));
-    console.log('Vocabulary:', vocab);
+    // console.log('Vocabulary:', vocab);
 
     function encodeWord(word) {
         const encoded = new Array(vocab.length).fill(0);
@@ -35,10 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const encodedData = trainingData.map(({ input, output }) => ({
         input: encodeWord(input),
         output: encodeWord(output)
-    }));
-    console.log('Encoded data:', encodedData);
+    }));    
+    // console.log('Encoded data:', encodedData);
 
-    // Define the model
+
+    // Defining the model
     const model = tf.sequential();
     model.add(tf.layers.dense({ units: 32, inputShape: [vocab.length], activation: 'relu' }));
     model.add(tf.layers.dense({ units: 64, activation: 'relu' }));
@@ -49,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loss: 'categoricalCrossentropy',
         metrics: ['accuracy']
     });
-
 
 
     async function trainModel() {
@@ -98,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return doc.text();
     }
 
+
     // Simplify the sentence provided in the input field
     function simplifyInputSentence() {
         const sentence = document.getElementById('sentence-input').value;
@@ -106,11 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('simplified-sentence').innerText = simplifiedSentence;
     }
 
-    // Train the model when the page loads
+    // Train the model
     trainModel().then(() => {
         console.log('Model is ready!');
     });
 
-    // Expose the function to the global scope so it can be called by the button
+    // Exposing the function to the global scope so it can be called by the button
     window.simplifyInputSentence = simplifyInputSentence;
 });
