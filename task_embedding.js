@@ -96,7 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Placeholder for other functions like predictVerb, simplifySentence, etc.
     function simplifyInputSentence() {
         console.log("Simplify input sentence function called.");
-        // Simplification logic here...
+        const sentence = document.getElementById('sentence-input').value;
+        document.getElementById('original-sentence').innerText = sentence;
+        const simplifiedSentence = simplifySentence(sentence);
+        document.getElementById('simplified-sentence').innerText = simplifiedSentence;
     }
 
     window.simplifyInputSentence = simplifyInputSentence;
