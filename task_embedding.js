@@ -132,7 +132,9 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Simplify input sentence function called.");
         const sentence = document.getElementById('sentence-input').value;
         document.getElementById('original-sentence').innerText = sentence;
+        console.log("Original sentence:", sentence);
         const simplifiedSentence = simplifySentence(sentence);
+        console.log("Simplified sentence:", simplifiedSentence);
         document.getElementById('simplified-sentence').innerText = simplifiedSentence;
     }
 
