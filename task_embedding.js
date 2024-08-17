@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return doc.text();
     }
 
-    function simplifyInputSentenceEmbedding() {
+    function simplifyInputSentence() {
         const sentence = document.getElementById('sentence-input').value;
         document.getElementById('original-sentence').innerText = sentence;
         const simplifiedSentence = simplifySentence(sentence);
@@ -179,5 +179,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Expose the function to the global scope so it can be called by the button
-    window.simplifyInputSentenceEmbedding = simplifyInputSentenceEmbedding;
+    window.simplifyInputSentence = simplifyInputSentence;
 });
