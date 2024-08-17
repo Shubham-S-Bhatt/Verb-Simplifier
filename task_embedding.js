@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     callbacks: tf.callbacks.earlyStopping({ monitor: 'loss' })
                 });
 
+                
                 console.log('Model training complete!');
 
                 trainingMessage.style.display = 'none'; // Hide the training message
