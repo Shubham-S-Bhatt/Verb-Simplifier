@@ -94,7 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Define the model
     const model = tf.sequential();
-    model.add(tf.layers.dense({ units: 32, inputShape: [vocab.length], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 64, inputShape: [vocab.length], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 128, inputShape: [vocab.length], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 128, inputShape: [vocab.length], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 128, inputShape: [vocab.length], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 64, inputShape: [vocab.length], activation: 'relu' }));
     model.add(tf.layers.dense({ units: vocab.length, activation: 'softmax' }));
 
     model.compile({
