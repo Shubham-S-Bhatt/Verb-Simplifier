@@ -1,21 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     let embeddings = {};
     const embeddingSize = 50; // Assuming each embedding is a 50-dimensional vector
-
-    // Load the embeddings
-    fetch('embeddings.json')
-        .then(response => response.json())
-        .then(data => {
-            embeddings = data;
-            trainModel().then(() => {
-                console.log('Model is ready!');
-            });
-        })
-        .catch(error => console.error('Error loading embeddings:', error));
-
-    function getEmbedding(word) {
-        return embeddings[word] || new Array(embeddingSize).fill(0); // Return a zero vector if the word is not found
-    }
 
     const trainingData = [
         { input: "obliterates", output: "destroys" },
@@ -71,6 +57,21 @@ document.addEventListener('DOMContentLoaded', () => {
         { input: "inaugurates", output: "begins" }
     ];
 
+    // Load the embeddings
+    fetch('embeddings.json')
+        .then(response => response.json())
+        .then(data => {
+            embeddings = data;
+            trainModel().then(() => {
+                console.log('Model is ready!');
+            });
+        })
+        .catch(error => console.error('Error loading embeddings:', error));
+
+    function getEmbedding(word) {
+        return embeddings[word] || new Array(embeddingSize).fill(0); // Return a zero vector if the word is not found
+    }
+
     function encodeWord(word) {
         return getEmbedding(word);
     }
@@ -80,13 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
         output: encodeWord(output)
     }));
 
+    let model; // Declare the model outside the function scope
 
     async function trainModel() {
-        
         // Define the model
-        const model = tf.sequential();
-        model.add(tf.layers.dense({ units: 128, inputShape: [embeddingSize], activation: 'relu' }));
-        model.add(tf.layers.dense({ units: 64, activation: 'relu' }));
+        model = tf.sequential();
+        model.add(tf.layers.dense({ units: 64, inputShape: [embeddingSize], activation: 'relu' }));
+        model.add(tf.layers.dense({ units: 128, activation: 'relu' }));
+        model.add(tf.layers.dense({ units: 128, activation: 'relu' }));
+        model.add(tf.layers.dense({ units: 128, activation: 'relu' }));
         model.add(tf.layers.dense({ units: embeddingSize, activation: 'softmax' }));
 
         model.compile({
@@ -94,29 +97,29 @@ document.addEventListener('DOMContentLoaded', () => {
             loss: 'categoricalCrossentropy',
             metrics: ['accuracy']
         });
-        
+
         const xs = tf.tensor2d(encodedData.map(({ input }) => input));
         const ys = tf.tensor2d(encodedData.map(({ output }) => output));
 
         const trainingMessage = document.getElementById('training-message');
         const sentenceInput = document.getElementById('sentence-input');
         const simplifyButton = document.getElementById('simplify-button');
-        
+
         if (trainingMessage && sentenceInput && simplifyButton) {
             trainingMessage.style.display = 'block'; // Show the training message
             console.log('Starting model training...');
-            
+
             await model.fit(xs, ys, {
-                epochs: 1000,
+                epochs: 100,
                 callbacks: tf.callbacks.earlyStopping({ monitor: 'loss' })
             });
 
             console.log('Model training complete!');
-            
+
             trainingMessage.style.display = 'none'; // Hide the training message
             sentenceInput.disabled = false; // Enable input
             simplifyButton.disabled = false; // Enable button
-        
+
         } else {
             console.error('One or more elements were not found on the page.');
         }
