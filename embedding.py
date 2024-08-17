@@ -6,6 +6,7 @@ import numpy as np
 # Sample corpus (you should replace this with your actual text data)
 corpus = [
     "When the fox touches a rabbit, it obliterates the rabbit.",
+    "When the fox touches a rabbit, it destroys the rabbit.",
     "The government swiftly promulgates new regulations to curb the spread of the disease.",
     "The architect meticulously delineates the blueprint to ensure every detail is captured.",
     "The storm annihilates everything in its path as it progresses across the land.",
@@ -27,6 +28,7 @@ model = Word2Vec(sentences=tokenized_corpus, vector_size=50, window=5, min_count
 # Extract embeddings for words of interest
 words_of_interest = [
     'obliterates',  # from "When the fox touches a rabbit, it obliterates the rabbit."
+    'destroys',
     'promulgates',   # from "The government swiftly promulgates new regulations to curb the spread of the disease."
     'delineates',    # from "The architect meticulously delineates the blueprint to ensure every detail is captured."
     'annihilates',   # from "The storm annihilates everything in its path as it progresses across the land."
