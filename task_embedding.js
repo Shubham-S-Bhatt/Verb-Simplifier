@@ -118,14 +118,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (trainingMessage && sentenceInput && simplifyButton) {
             trainingMessage.style.display = 'block'; // Show the training message
             console.log('Starting model training...');
+            
             await model.fit(xs, ys, {
-                epochs: 100,
+                epochs: 1000,
                 callbacks: tf.callbacks.earlyStopping({ monitor: 'loss' })
             });
+
             console.log('Model training complete!');
+            
             trainingMessage.style.display = 'none'; // Hide the training message
             sentenceInput.disabled = false; // Enable input
             simplifyButton.disabled = false; // Enable button
+        
         } else {
             console.error('One or more elements were not found on the page.');
         }
