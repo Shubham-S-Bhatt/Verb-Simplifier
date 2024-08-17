@@ -95,19 +95,22 @@ document.addEventListener('DOMContentLoaded', () => {
         output: encodeWord(output)
     }));
 
-    // Define the model
-    const model = tf.sequential();
-    model.add(tf.layers.dense({ units: 128, inputShape: [embeddingSize], activation: 'relu' }));
-    model.add(tf.layers.dense({ units: 64, activation: 'relu' }));
-    model.add(tf.layers.dense({ units: embeddingSize, activation: 'softmax' }));
-
-    model.compile({
-        optimizer: tf.train.adam(),
-        loss: 'categoricalCrossentropy',
-        metrics: ['accuracy']
-    });
 
     async function trainModel() {
+
+        
+        // Define the model
+        const model = tf.sequential();
+        model.add(tf.layers.dense({ units: 128, inputShape: [embeddingSize], activation: 'relu' }));
+        model.add(tf.layers.dense({ units: 64, activation: 'relu' }));
+        model.add(tf.layers.dense({ units: embeddingSize, activation: 'softmax' }));
+
+        model.compile({
+            optimizer: tf.train.adam(),
+            loss: 'categoricalCrossentropy',
+            metrics: ['accuracy']
+        });
+        
         const xs = tf.tensor2d(encodedData.map(({ input }) => input));
         const ys = tf.tensor2d(encodedData.map(({ output }) => output));
 
