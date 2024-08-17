@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verb Simplification with TensorFlow.js</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="task_nlp.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Verb Simplification with TensorFlow.js</h1>
+        
+        <div id="training-message" class="alert">Model is being trained, please wait...</div>
+        
+        <div class="input-group">
+            <label for="sentence-input">Enter a sentence:</label>
+            <input type="text" id="sentence-input" placeholder="Type your sentence here..." disabled>
+        </div>
+        
+        <button id="simplify-button" onclick="simplifyInputSentence()" disabled>Simplify Sentence</button>
+        
+        <div class="output-group">
+            <p><strong>Original Sentence:</strong> <span id="original-sentence"></span></p>
+            <p><strong>Simplified Sentence:</strong> <span id="simplified-sentence"></span></p>
+        </div>
+    </div>
+</body>
+</html>
