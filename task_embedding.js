@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (trainingMessage && sentenceInput && simplifyButton) {
                 trainingMessage.style.display = 'block'; // Show the training message
-
+                console.log('Model training started...');
                 await model.fit(xs, ys, {
-                    epochs: 100,
+                    epochs: 1000,
                     callbacks: tf.callbacks.earlyStopping({ monitor: 'loss' })
                 });
 
