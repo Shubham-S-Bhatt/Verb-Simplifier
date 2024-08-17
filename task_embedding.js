@@ -10,63 +10,78 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     async function loadEmbeddings() {
+        console.log("Loading embeddings...");
         try {
             const response = await fetch('embeddings.json');
             if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
+                throw new Error('Network response was not ok: ' + response.statusText);
             }
             embeddings = await response.json();
+            console.log("Embeddings loaded successfully", embeddings);
         } catch (error) {
             console.error('Error loading embeddings:', error);
-            throw error; // Re-throw to handle in parent scope if needed
+            throw error;
         }
     }
 
     async function trainModel() {
-        // Define the model
-        const model = tf.sequential();
-        model.add(tf.layers.dense({ units: 64, inputShape: [embeddingSize], activation: 'relu' }));
-        model.add(tf.layers.dense({ units: 128, activation: 'relu' }));
-        model.add(tf.layers.dense({ units: 128, activation: 'relu' }));
-        model.add(tf.layers.dense({ units: embeddingSize, activation: 'softmax' }));
+        console.log("Starting model training...");
+        try {
+            // Define the model
+            const model = tf.sequential();
+            model.add(tf.layers.dense({ units: 64, inputShape: [embeddingSize], activation: 'relu' }));
+            model.add(tf.layers.dense({ units: 128, activation: 'relu' }));
+            model.add(tf.layers.dense({ units: 128, activation: 'relu' }));
+            model.add(tf.layers.dense({ units: embeddingSize, activation: 'softmax' }));
 
-        model.compile({
-            optimizer: tf.train.adam(),
-            loss: 'categoricalCrossentropy',
-            metrics: ['accuracy']
-        });
-
-        const xs = tf.tensor2d(trainingData.map(({ input }) => encodeWord(input)));
-        const ys = tf.tensor2d(trainingData.map(({ output }) => encodeWord(output)));
-
-        const trainingMessage = document.getElementById('training-message');
-        const sentenceInput = document.getElementById('sentence-input');
-        const simplifyButton = document.getElementById('simplify-button');
-
-        if (trainingMessage && sentenceInput && simplifyButton) {
-            trainingMessage.style.display = 'block'; // Show the training message
-            console.log('Starting model training...');
-
-            await model.fit(xs, ys, {
-                epochs: 100,
-                callbacks: tf.callbacks.earlyStopping({ monitor: 'loss' })
+            model.compile({
+                optimizer: tf.train.adam(),
+                loss: 'categoricalCrossentropy',
+                metrics: ['accuracy']
             });
 
-            console.log('Model training complete!');
+            const xs = tf.tensor2d(trainingData.map(({ input }) => encodeWord(input)));
+            const ys = tf.tensor2d(trainingData.map(({ output }) => encodeWord(output)));
 
-            trainingMessage.style.display = 'none'; // Hide the training message
-            sentenceInput.disabled = false; // Enable input
-            simplifyButton.disabled = false; // Enable button
-        } else {
-            console.error('One or more elements were not found on the page.');
+            console.log("Input tensors (xs):", xs.shape);
+            console.log("Output tensors (ys):", ys.shape);
+
+            const trainingMessage = document.getElementById('training-message');
+            const sentenceInput = document.getElementById('sentence-input');
+            const simplifyButton = document.getElementById('simplify-button');
+
+            if (trainingMessage && sentenceInput && simplifyButton) {
+                trainingMessage.style.display = 'block'; // Show the training message
+
+                await model.fit(xs, ys, {
+                    epochs: 100,
+                    callbacks: tf.callbacks.earlyStopping({ monitor: 'loss' })
+                });
+
+                console.log('Model training complete!');
+
+                trainingMessage.style.display = 'none'; // Hide the training message
+                sentenceInput.disabled = false; // Enable input
+                simplifyButton.disabled = false; // Enable button
+            } else {
+                console.error('One or more elements were not found on the page.');
+            }
+        } catch (error) {
+            console.error('Error during model training:', error);
+            throw error;
         }
     }
 
     function encodeWord(word) {
-        return embeddings[word] || new Array(embeddingSize).fill(0); // Return a zero vector if the word is not found
+        const embedding = embeddings[word];
+        if (!embedding) {
+            console.warn(`Embedding not found for word: ${word}. Returning zero vector.`);
+        }
+        return embedding || new Array(embeddingSize).fill(0); // Return a zero vector if the word is not found
     }
 
     async function initialize() {
+        console.log("Initializing...");
         try {
             await loadEmbeddings();
             await trainModel();
@@ -78,7 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initialize();
 
-    // Other functions like predictVerb, simplifySentence, etc.
+    // Placeholder for other functions like predictVerb, simplifySentence, etc.
+    function simplifyInputSentence() {
+        console.log("Simplify input sentence function called.");
+        // Simplification logic here...
+    }
 
     window.simplifyInputSentence = simplifyInputSentence;
 });
